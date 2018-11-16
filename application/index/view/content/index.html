@@ -1,0 +1,246 @@
+{layout name="layout/layout" /}
+<script>
+	$(function(){
+		var article_id = "{:input('ar_id')}";
+		var member_id = "{:session('member.id')}";
+		/* 发表评论 */
+		$('.comment-send .btn input').click(function(){
+			var $this = $(this);
+			member_id = sessionStorage.getItem("member_id");
+			console.log(member_id);
+			if(member_id){
+				var data = $("#comment-send").serialize();
+				$this.attr("disabled",true);
+				$.ajax({
+					type:'post',
+					data:data,
+					dataType:'json',
+					url:'{:url("index/Content/ajaxSendComment")}?article_id='+article_id,
+					success:function(data){
+						if(data.ok){
+							var html='<li class="top"><div class="info"><div class="left fl"><img class="fl" src="{$websetData.domain}/public/'+data.face+'" width="36" height="36" style="border-radius:50%;margin-right:10px;"><p class="name">'+data.name+'</p><p class="time">'+data.time+'</p></div><div class="right fr"></div></div><div class="comment_content">'+data.content+'</div></li>';
+							$('.main .wrap .detail .comment .comment_list>ul').prepend(html);
+							$('#comment-send')[0].reset();
+							$('.comment-send .btn span').html('');
+						}else{
+							$('.comment-send .btn span').html(data.error_msg);
+						}
+						$this.attr("disabled",false);
+					},
+				});
+			}else{
+				$('header .right').trigger('click');
+			}
+			return false;
+		});
+		$('.comment-send textarea').focus(function(){
+			$('.comment-send .btn span').html('');
+		});
+		//加载更多
+		var page = 1;
+		$('.more').click(function(){
+			var $this = $(this);
+			page++;
+			$.ajax({
+				type:'get',
+				dataType:'json',
+				url:'{:url("index/content/ajaxAddMore",'','')}/article_id/'+article_id+"/page/"+page,
+				success:function(data){
+					var html = '';
+					var text = '';
+					var timer;
+					$(data).each(function(k,v){
+						if(data.ok == 0){
+							$this.children().html('没有啦，已经到底啦');
+							$this.children().css('cursor','not-allowed');
+							$this.unbind('click');
+							return;
+						}
+						var isreply='';
+						$(v.reply).each(function(k1,v1){
+							var istoname = '';
+							if(member_id!=v1.member_id){
+								isreply='回复';
+							}else{
+								isreply='';
+							}
+							if(v1.pid!=0){
+								istoname="回复"+v1.toname;
+							}
+							timer = changeTime(v1.time*1000);
+							text+='<li class="sub"><div class="info"><div class="left fl"><img class="fl" src="{$websetData.domain}/'+ v1.face+'" width="36" height="36" style="border-radius:50%;margin-right:10px;"><p class="name">'+v1.name+istoname+'：</p><p class="time">'+timer+'</p></div><div class="right fr" onclick="reply(this);">'+isreply+'</div></div><div class="comment_content">'+v1.content+'<form method="post" action="" class="send_reply" style="display: none;"><input type="hidden" name="pid" value="'+v1.id+'"><input type="hidden" name="to_member_id" value="'+v1.member_id+'"><input type="hidden" name="comment_id" value="'+v1.comment_id+'"><textarea class="reply" name="content"></textarea><div class="btn"><span style="color:#f00;"></span><input style="margin-left:100px;" onclick="addreply(this);return false;" type="submit" value="提交"></div></form>	</div></li>';
+						});
+						if(member_id!=v.member_id){
+							isreply='回复';
+						}
+						timer = changeTime(v.time*1000);
+						html+='<li class="top"><div class="info"><div class="left fl"><img class="fl" src="{$websetData.domain}/public/'+ v.face+'" width="36" height="36" style="border-radius:50%;margin-right:10px;"><p class="name">'+v.name+':</p><p class="time">'+timer+'</p></div><div class="right fr answer" onclick="reply(this);">'+isreply+'</div></div><div class="comment_content">'+v.content+'<form method="post" action="" class="send_reply"><input type="hidden" name="pid" value="0"><input type="hidden" name="to_member_id" value="'+v.member_id+'"><input type="hidden" name="comment_id" value="'+v.comment_id+'"><textarea class="reply" name="content"></textarea><div class="btn"><span style="color:#f00;"></span><input style="margin-left:100px;" type="submit" value="提交" onclick="addreply(this);return false;"></div></form></div><ul>'+text+'</ul></li>';
+					});
+					$('.comment_list>ul').append(html);
+
+				},
+			});
+		})
+	});
+	//点击回复textarea展现出来
+	function reply(othis){
+		var member_id = sessionStorage.getItem("member_id");
+		if(!member_id){
+			$('header .right').trigger('click');
+			return;
+		}
+		var $this = $(othis);
+		$('.comment_content form').hide();
+		$('.comment_content form').find('textarea').val('');
+		var $form = $this.parents('.info').siblings('.comment_content').find('form');
+		$form.slideDown();
+		$form.find("textarea").focus();
+	}
+	//添加回复评论
+	function addreply(othis){
+		//var member_id = "{:session('member.id')}";
+		var member_id = sessionStorage.getItem("member_id");
+		if(member_id){
+			var $this = $(othis);
+			$this.attr("disabled",true);
+			var data = $this.parents('.send_reply').serialize();
+			$.ajax({
+				type:'post',
+				data:data,
+				dataType:'json',
+				url:'{:url("index/content/ajaxAddReply")}',
+				success:function(data){
+					if(data.ok==1){
+						var html = '';
+						if(data.pid==0){
+							html='<li class="sub"><div class="info"><div class="left fl"><img class="fl" src="{$websetData.domain}/public/'+data.face+'" width="36" height="36" style="border-radius:50%;margin-right:10px;"><p class="name">'+data.name+'</p><p class="time">'+data.time+'</p></div><div class="right fr"></div></div><div class="comment_content">'+data.content+'</div></li>';
+						}else{
+							html='<li class="sub"><div class="info"><div class="left fl"><img class="fl" src="{$websetData.domain}/public/'+data.face+'" width="36" height="36" style="border-radius:50%;margin-right:10px;"><p class="name">'+data.name+'回复'+data.to_name+'：</p><p class="time">'+data.time+'</p></div><div class="right fr"></div></div><div class="comment_content">'+data.content+'</div></li>';
+						}
+						if(data.pid==0){
+							$this.parents('.comment_content').siblings('ul').prepend(html);	
+							
+						}else{
+							$this.parents('.sub').after(html);	
+						}
+						$this.parents('form')[0].reset();
+						$this.siblings('span').html('');
+						$this.parents('form').hide();
+					}else if(data.ok==0){
+						$this.siblings('span').html(data.error_msg);		
+					}
+					$this.attr("disabled",false);
+				}
+			});
+		}else{
+			$('header .right').trigger('click');
+		}
+	}
+	function changeTime(time){
+		var date = new Date(time);
+		Y = date.getFullYear() + '-';
+		M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+		D = date.getDate() + ' ';
+		h = date.getHours() + ':';
+		m = date.getMinutes() + ':';
+		s = date.getSeconds(); 
+		return Y+M+D+h+m+s;
+	}
+</script>
+<!-- main start -->
+	<div class="_width main min-width" style="padding:86px 0">
+		<div class="_content wrap">
+			<div class="detail fl">
+				<div class="breadcrumbs">当前位置：<a href="__ROOT__/index.html">首页</a> > <a href="{:url('index/lst/index',['cate_id'=>$info['cate_id']])}">{$info.cate_name}</a> > 正文</div>
+				<div class="title">
+					<h2>{$info.name}</h2>
+					<p><span>{$info.author}</span> 发布于 <span>{$info.time|date='Y-m-d',###}</span> 分类  <span><a href="{:url('index/lst/index',['cate_id'=>$info['cate_id']])}"><span>{$info.cate_name}</span></a></span></p>
+				</div>	
+				<div class="content" id="content">
+					{$info.content}
+				</div>
+				<div class="tag">
+					<img src="{$websetData.domain}/public__STATIC__/index/images/tag.png">
+					<?php $count=count($info['tag']);?>
+					{foreach name="info['tag']" item="v" key="k"}
+					<a href="{:url('index/lst/index',['tag_id'=>$v['id']])}">{$v.name}</a><?php if($k+1!=$count):?>、<?php endif; ?>
+					{/foreach}
+				</div>
+				<div class="comment">
+					<h3>评论<span></span></h3>
+					<div class="comment-send">
+						<div class="fl head">
+							{if condition="$Think.session.member.name"}<img style="width:40px;height:40px;border-radius:50%" src="{$websetData.domain}/public/{$Think.session.member.face}">{/if}
+							<p>{if condition="$Think.session.member.name"}{$Think.session.member.name}{/if}</p>
+
+						</div>
+						<div class="fl">
+							<form action="" id="comment-send" method="post">
+								<textarea name="content">发表评论....</textarea>
+								<div class="btn"><span style="color:#f00;"></span><input style="margin-left:100px;" type="submit" value="提交"></div>
+							</form>
+						</div>
+						</div>	
+					<div class="comment_list">
+						<ul>
+							<?php $sessionId=session('member.id');?>
+							{foreach name="commentData" item="v"}
+							<li class="top">
+								<div class="info">
+									<div class="left fl">
+									<img class="fl" src="{$websetData.domain}/public/{$v.face}" width="36" height="36" style="border-radius:50%;margin-right:10px;">
+									<p class="name">{$v.name}</p>
+									<p class="time">{$v.time|date='Y-m-d H:i:s',###}</p>
+									</div>
+									<div class="right fr answer" onclick="reply(this);"><?php if($sessionId!=$v['member_id']):?>回复<?php endif;?></div>	
+								</div>
+								<div class="comment_content">
+									{$v.content}	
+									<form method='post' action='' class="send_reply">
+										<input type="hidden" name="pid" value="0">
+										<input type="hidden" name="to_member_id" value="{$v.member_id}">
+										<input type="hidden" name="comment_id" value="{$v.comment_id}">
+										<textarea class="reply" name="content"></textarea>
+										<div class="btn"><span style="color:#f00;"></span><input onclick="addreply(this); return false;" style="margin-left:100px;" type="submit" value="提交"></div>
+									</form>
+								</div>
+								<ul>
+									
+									{foreach name="$v['reply']" item="vo"}
+									<li class="sub">
+										<div class="info">
+											<div class="left fl">
+											<img class="fl" src="{$websetData.domain}/public/{$vo.face}" width="36" height="36" style="border-radius:50%;margin-right:10px;">
+											<p class="name">{$vo.name}{if condition="$vo['pid'] neq 0"}回复{$vo.toname}{/if}：</p>
+											<p class="time">{$vo.time|date='Y-m-d H:i:s',###}</p>
+											</div>
+											<div class="right fr" onclick="reply(this);"><?php if($sessionId!=$vo['member_id']):?>回复<?php endif;?></div>	
+										</div>
+										<div class="comment_content">
+											{$vo.content}
+											<form action='' method='post' class="send_reply">
+												<input type="hidden" name="pid" value="{$vo.id}">
+												<input type="hidden" name="to_member_id" value="{$vo.member_id}">
+												<input type="hidden" name="comment_id" value="{$v.comment_id}">
+												<textarea class="reply" name="content"></textarea>
+												<div class="btn"><span style="color:#f00;"></span><input style="margin-left:100px;" onclick="addreply(this);return false;" type="submit" value="提交"></div>
+											</form>	
+										</div>	
+									</li>
+									{/foreach}
+								</ul>
+							</li>
+							{/foreach}
+						</ul>	
+					</div>
+					<div class="more"><a href="javascript:void(0);">查看更多</a></div>
+					<div class="tab-article">
+						<p>上一篇:<?php if($previnfo['name']):?><a href="{:url('index/content/index',['ar_id'=>$previnfo['id']])}">{$previnfo['name']}</a><?php else: ?>没有啦！！！<?php endif; ?></p>
+						<p>下一篇:<?php if($nextinfo['name']):?><a href="{:url('index/content/index',['ar_id'=>$nextinfo['id']])}">{$nextinfo['name']}</a><?php else: ?>没有啦！！！<?php endif; ?></p>
+					</div>
+				</div>			
+			</div>
+			{include file="public/aside" /}
+		</div>
+	</div>		
+	<!-- main end -->

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>{$title}</title>
+	<meta name="keywords" content="{$description}" />
+	<meta name="description" content="{$description}" />
+	<link rel="stylesheet" type="text/css" href="{$websetData.domain}/public__STATIC__/index/css/common.css">
+	{foreach name="css" item="v"}
+	<link rel="stylesheet" type="text/css" href="{$websetData.domain}/public__STATIC__/index/css/{$v}.css">
+	{/foreach}
+	<script type="text/javascript" src="{$websetData.domain}/public__STATIC__/index/js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="{$websetData.domain}/public__STATIC__/index/js/jquery.lazyload.min.js"></script>
+	<script type="text/javascript" src="{$websetData.domain}/public__STATIC__/index/js/jquery.easing.min.js"></script>
+	<script type="text/javascript" src="{$websetData.domain}/public__STATIC__/index/js/index.js"></script>
+</head>
+<body>
+	<script>
+	/*头部导航特效*/
+	$(function(){
+		//懒加载 lazy-load
+		$(".lazy").lazyload({
+			effect:'fadeIn',
+			placeholder:'{$websetData.domain}/public__STATIC__/index/images/lazyload.gif'
+		});
+		(function(){
+			var $cate_id = "<?php echo $cate_id;?>";
+			if($cate_id!=='false'){
+				var index=0;
+				if($cate_id==41){
+					index=1;	
+				}else if($cate_id==42){
+					index = 2;
+				}else if($cate_id==43){
+					index = 3;
+				}else if($cate_id==44){
+					index = 4;
+				}else if($cate_id==45){
+					index = 5;
+				}else if($cate_id==46){
+					index = 6;
+				}
+				$('header .left nav').append("<div class='hk' style='top:0;left:"+index*100+"px;position:absolute;width:100px;height:60px;background:#f00;z-index:-1;'></div>");
+				$("header .left nav .hk").css("left",index*100+"px");
+				$('header .left nav ul li').hover(function(){
+					var i = $(this).index();
+					$("header .left nav .hk").stop(true,true).animate({ 
+						left:i*100+"px",    
+				    },{ 
+					    easing: 'easeOutBack',
+					    duration: 350,  
+					});
+				})
+				$('header .left nav').mouseleave(function(){
+					$("header .left nav .hk").stop(true,true).animate({ 
+						left:index*100+"px",    
+				    },{ 
+					    easing: 'easeOutBack',
+					    duration: 200,  
+					});	
+				})			
+			}	
+		})();
+	})
+	function logout(othis){
+		var $this = $(othis);
+		$.ajax({
+			type:'get',
+			url:"{:url('index/member/logout')}",
+			success:function(data){
+				sessionStorage.clear();
+				window.location.href=data.url;
+			}
+		});		
+	};	
+	/*头部导航结束特效*/
+	</script>
+	<!-- header start -->
+	<header class="_width min-width">
+		<div class="_content">
+			<div class="left fl">
+				<p class="logo"><a href="__ROOT__/index.html">{$websetData.logo}</a></p>
+				<nav>
+					<ul>
+						<li class="active"><a href="__ROOT__/index.html">主页</a></li>
+						{foreach name="_categoryData" item="v"}
+						<li <?php if($cate_id==$v['id']):?>class="active"<?php endif;?> ><a href="{:url('index/lst/index',['cate_id'=>$v['id']])}">{$v.name}</a></li>
+						{/foreach}
+					</ul>
+					
+				</nav>
+			</div>
+			{if condition="$Think.session.member.name"}<div class="right fr" style="cursor:auto;"><div class="face"><img src="{$websetData.domain}/public/{$Think.session.member.face}"></div>欢迎您，{$Think.session.member.name}&nbsp;<a onclick="logout(this);" class="logout" href="javascript:void(0);" style="color:#e2e2e2;cursor:pointer;" >退出</a></div>{else/}<div class="right fr">登录|注册</div>{/if}
+		</div>
+	</header>
+	<!-- header end -->

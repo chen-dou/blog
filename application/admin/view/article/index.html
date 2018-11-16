@@ -1,0 +1,61 @@
+{layout name="layout/layout" /}
+<div class="col-xs-12 col-sm-9 col-lg-10">
+            <ol class="breadcrumb" style="background-color: #f9f9f9;padding:8px 0;margin-bottom:10px;">
+                <li>
+                    <a href=""><i class="fa fa-cogs"></i>
+                        文章管理</a>
+                </li>
+                <li class="active">
+                    <a href="">文章列表</a>
+                </li>
+            </ol>
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="">文章列表</a></li>
+                <li><a href="<?php echo url('add');?>">添加文章</a></li>
+            </ul>
+            <form action="" method="post">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th width="80">编号</th>
+                                <th>文章名称</th>
+                                <th>文章作者</th>
+                                <th>时间</th>
+                                <th>点击率</th>
+                                <th>所属栏目</th>
+                                <th width="200">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="list">
+                            	{foreach name='list' item='v'}
+                                <tr>
+                                    <td>{$v.id}</td>
+                                    <td>{$v.name}</td>
+                                    <td>{$v.author}</td>
+                                    <td>{$v.time|date='y-m-d H:i:s',###}</td>
+                                    <td>{$v.click}</td>
+                                    <td>{$v.cate_name}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <ul>
+                                                <li><a href="<?php echo url('edit',['id'=>$v['id']])?>">编辑</a></li>
+                                                <li><a href="">&nbsp; | &nbsp;</a></li>
+                                               <li><a href="<?php echo url('torecycle',['id'=>$v['id']])?>">回收站</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+            <div class="pagination pagination-sm pull-right">
+            {$list->render()}
+            </div>
+         </div>
+        
+        

@@ -1,0 +1,38 @@
+
+{layout name="layout/layout" /}
+<!-- main start -->
+<div class="_width main min-width">
+	<div class="_content wrap">
+		{include file="public/aside" /}
+		<div class="right fr">
+			<article>
+				<div class="article-list">
+					<ul style="overflow:hidden;">
+						{volist name="articleData" id="v"}
+						<li class="list-list">
+							<i class="line-top"></i>
+							<i class="line-right"></i>
+							<i class="line-bottom"></i>
+							<i class="line-left"></i>
+							<a href="{:url('index/content/index',['ar_id'=>$v['id']])}">
+								<img class="lazy" data-original="{$websetData.domain}/public/{$v.image}" height="175">
+								<div class="con">
+									<h3 class="title">{$v.name}</h3>
+									<p class="time">{$v.time|date='Y-m-d H:i:s',###}</p>
+									<p class="digest">{$v.digest}</p>
+									<p class="read">阅读</p>
+								</div>
+							</a>
+						</li>
+						{/volist}
+					</ul>
+				</div>
+			</article>	
+			<div class="pagination">
+				{$articleData->render()}
+			</div>						
+		</div>
+	</div>
+</div>		
+<!-- main end -->
+

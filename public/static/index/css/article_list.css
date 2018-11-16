@@ -1,0 +1,40 @@
+/*文章列表 start*/
+.main .wrap .article-list ul li a{
+	display:block;
+}
+.main .wrap .article-list ul li a img{
+	width:100%;
+	border-radius:10px 10px 0 0;
+}
+.main .wrap .article-list ul li a .con{
+	padding:10px 20px;
+	font-size:14px;
+	color:#000;
+}
+.main .wrap .article-list ul li a .con h3{
+	font-size:16px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+}
+.main .wrap .article-list ul li a .con .time{
+	color:#ccc;
+}
+.main .wrap .article-list ul li a .con p{
+	margin:10px 0;
+}
+.main .wrap .article-list ul li a .con .digest{
+	text-indent:2em;
+	display:-webkit-box;
+	-webkit-box-orient:vertical;
+	-webkit-line-clamp:3;
+	-moz-line-clamp:3;
+	line-clamp:3;
+	overflow:hidden;
+}
+.main .wrap .article-list ul li a .con .read{
+	padding-top:20px;
+	text-align:right;
+	color:#5fcfed;
+}
+/*文章列表 end*/

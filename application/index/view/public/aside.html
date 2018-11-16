@@ -1,0 +1,42 @@
+<div class="left <?php if(input('param.ar_id')): ?>fr<?php else: ?>fl<?php endif; ?>">
+			<div class="top">
+				<h3>最新文章</h3>
+				<div class="list">
+					<ul>
+						{foreach name="_articleData" item="v"}
+						<li>
+						<a href="{:url('index/content/index',['ar_id'=>$v['id']])}">
+							<span>{$v.name}</span>	
+						</a>
+						</li>
+						{/foreach}
+					</ul>
+				</div>
+			</div>
+			<div class="middle">
+				<h3>最新评论</h3>
+				<div class="list">
+					<ul>
+						{foreach name="_commentData" item="v"}
+						<li>
+						<a href="{:url('index/content/index',['ar_id'=>$v['article_id']])}">
+							<img style="float:left;width:36px;height:36px;" src="{$websetData.domain}/public/{$v.face}">
+							<p>{$v.name}:</p>
+							<p>{$v.content}</p>
+						</a>
+						</li>
+						{/foreach}
+					</ul>
+				</div>	
+			</div>	
+			<div class="bottom">
+				<h3>标签云</h3>
+				<div class="list">
+					<ul>
+						{foreach name="tagData" item="v"}
+						<li><a href="{:url('index/lst/index',['tag_id'=>$v['id']])}">{$v.name}</a></li>
+						{/foreach}
+					</ul>
+				</div>	
+			</div>					
+		</div>

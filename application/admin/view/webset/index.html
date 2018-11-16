@@ -1,0 +1,61 @@
+{layout name="layout/layout" /}
+<div class="col-xs-12 col-sm-9 col-lg-10">
+            <ol class="breadcrumb" style="background-color: #f9f9f9;padding:8px 0;margin-bottom:10px;">
+                <li>
+                    <a href=""><i class="fa fa-cogs"></i>
+                       友情链接管理</a>
+                </li>
+                <li class="active">
+                    <a href="">友情链接列表</a>
+                </li>
+            </ol>
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="">友情链接列表</a></li>
+                <li><a href="<?php echo url('add');?>">添加友情链接</a></li>
+            </ul>
+            <form action="" method="post">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th width="80">编号</th>
+                                <th>名称</th>
+                                <th>值</th>
+                                <th>描述</th>
+                            </tr>
+                            </thead>
+                            <tbody id="list">
+                            	{foreach name="list" item="v"}
+                            	<tr>
+                                    <td>{$v.id}</td>
+                                    <td>{$v.name}</td>
+                                    <td><input type="text" name="value" websetid="{$v.id}" value="{$v.value}" class="value"></td>
+                                    <td>{$v.desc}</td>
+                                </tr>
+                                {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+            <div class="pagination pagination-sm pull-right">
+            </div>
+            <script>
+            
+            $('.value').blur(function(){
+            	var val = $(this).val();
+            	var websetid = $(this).attr("websetid");
+            	$.ajax({
+            		type:'post',
+            		data:"value="+val+"&id="+websetid,
+            		url:"{:url('ajaxChangeValue','','')}",
+            		success:function(data){
+            			console.log(data);		
+            		}
+            	});
+            })
+            </script>
+            
+         </div>
+        

@@ -1,0 +1,84 @@
+/*main start*/
+
+.main .wrap .article-list ul li.list-list{
+	border-radius:10px;
+	float:left;
+	width:258px;
+	height:380px;
+	background:#fff;
+	margin:0 5px 30px;
+	border:1px solid #efefef;
+	position:relative;
+}
+.main .wrap .article-list ul li.list-list i{
+	position:absolute;
+	width:3px;
+	height:3px;
+	background:transparent;
+	transition:all 1s;
+}
+.main .wrap .article-list ul li.list-list i.line-top,.main .wrap .article-list ul li.list-list i.line-left{
+	left:0;
+	top:0px;
+}
+.main .wrap .article-list ul li.list-list:hover i.line-top{
+	width:100%;
+	background:#17a6e8;
+}
+.main .wrap .article-list ul li.list-list:hover i.line-left{
+	height:100%;
+	background:#17a6e8;
+}
+.main .wrap .article-list ul li.list-list i.line-right,.main .wrap .article-list ul li.list-list i.line-bottom{
+	bottom:0;
+	right:0;
+}
+.main .wrap .article-list ul li.list-list:hover i.line-right{
+	height:100%;
+	background:#17a6e8;	
+}
+.main .wrap .article-list ul li.list-list:hover i.line-bottom{
+	width:100%;
+	background:#17a6e8;		
+}
+.main .wrap .right{
+	width:810px;
+	padding-top:10px;
+}
+/*main end*/
+
+/*page start*/
+div.pagination{
+	float:right;
+}
+div.pagination ul li{
+	float:left;
+}
+div.pagination ul li a,div.pagination ul li span{
+	display:block;
+	margin-left:-1px;
+	padding:6px 12px;
+	color:#428bca;
+	background:#fff;
+	border:1px solid #ddd;
+}
+.pagination li:first-child span,.pagination li:first-child a{
+	border-radius:4px 0px 0px 4px;
+}
+.pagination li:last-child span,.pagination li:last-child a{
+	border-radius:0px 4px 4px 0px;
+}
+div.pagination ul li.disabled{
+	cursor:not-allowed;
+}
+.pagination>.active>span{
+	color:#fff;
+	background:#428bca;
+	border-color:#428bca;
+}
+.pagination>li>a:hover{
+	color:#2a6496;
+	background:#eee;
+	border-color:#ddd;
+}
+/*page end*/

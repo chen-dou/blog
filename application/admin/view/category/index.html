@@ -1,0 +1,78 @@
+{layout name="layout/layout" /}
+<div class="col-xs-12 col-sm-9 col-lg-10">
+            <ol class="breadcrumb" style="background-color: #f9f9f9;padding:8px 0;margin-bottom:10px;">
+                <li>
+                    <a href=""><i class="fa fa-cogs"></i>
+                        栏目管理</a>
+                </li>
+                <li class="active">
+                    <a href="">栏目列表</a>
+                </li>
+            </ol>
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="">栏目列表</a></li>
+                <li><a href="<?php echo url('add');?>">添加栏目</a></li>
+            </ul>
+            <form action="" method="post">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th width="80">编号</th>
+                                <th>排序</th>
+                                <th>栏目名称</th>
+                                <th>上级栏目</th>
+                                <th width="200">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="list">
+                            	{foreach name='list' item='v'}
+                                <tr>
+                                    <td>{$v.id}</td>
+                                    <td><input onblur="sort(this);" class="sort" id="{$v.id}" value="{$v.sort}" style="width:40px"></td>
+                                    <td>{:str_repeat('-',$v['level']*3)}{$v.name}</td>
+                                    <td>{$v.pid}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <ul>
+                                                <li><a href="<?php echo url('edit',['id'=>$v['id']])?>">编辑</a></li>
+                                                <li><a href="">&nbsp; | &nbsp;</a></li>
+                                               <li><a href="<?php echo url('delt',['id'=>$v['id']])?>">删除</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+            <div class="pagination pagination-sm pull-right">
+            </div>
+         </div>
+         <script>
+         function str_repeat(str, num){ 
+         	return new Array( num + 1 ).join(str); 
+       	 }
+         function sort(othis){
+        	$this = $(othis);
+            var sort = $this.val();
+            var id = $this.attr('id');
+            $.ajax({
+      			type:'GET',
+				url:"<?php echo url('ajaxSort','','')?>/sort/"+sort+"/id/"+id,
+				dataType:'json',
+      			success:function(data){
+      				var html="";
+      				$(data).each(function(k,v){
+      					var level = str_repeat("-",v['level']*3);
+      					html+='<tr><td>'+v.id+'</td><td><input onblur="sort(this);" class="sort" id="'+v.id+'" value="'+v.sort+'" style="width:40px"></td><td>'+level+v.name+'</td><td>'+v.pid+'</td><td><div class="btn-group"><ul><li></li><li><a href="<?php echo url('edit','','');?>/id/'+v.id+'">编辑&nbsp; | &nbsp;</a></li><li><a href="<?php echo url("delt",'','');?>/id/'+v.id+'">删除</a></li></ul></div></td></tr>';	
+      				})
+      				$('#list').html(html);
+      			},
+      		});	 
+         }
+         </script>
+        

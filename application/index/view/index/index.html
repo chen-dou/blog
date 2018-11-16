@@ -1,0 +1,105 @@
+{layout name="layout/layout" /}
+<!-- 首屏 start -->
+	<div class="first-screen min-width">
+		<div class="txt">
+			<div class="txt-top">
+				<p>{$websetData.banner_1}</p>
+				<p>{$websetData.banner_2}</p>
+			</div>
+			<h1>{$websetData.title}</h1>
+			<div class="txt-bottom">
+				<p>{$websetData.banner_3}</p>
+				<p>{$websetData.banner_4}</p>	
+			</div>
+		</div>
+		<i class="arrow">&#xe608;</i>
+	</div>
+	<!-- 首屏 end -->
+
+	<!-- 内容 start -->
+	<div class="_width main min-width">
+		<div class="_content wrap">
+			<article>
+				<div class="title">
+					<h2>Article</h2>
+					<h4>最新文章</h4>
+					<a href="">more
+					<i></i>
+					</a>
+
+				</div>
+				<div class="article-list">
+					<ul>
+						{foreach name="newArticleData" item="v"}
+						<li class="index-list">
+							<a href="{:url('index/content/index',['ar_id'=>$v['id']])}">
+							<img data-original="{$websetData.domain}/public/{$v.image}" class="lazy" width="332" height="200">
+							<div class="con">
+								<h3 class="title">{$v.name}</h3>
+								<p class="time">{$v.time|date='Y-m-d H:i:s',###}</p>
+								<p class="digest">{$v.digest}</p>
+								<p class="read">阅读</p>
+							</div>
+							</a>
+						</li>
+						{/foreach}
+					</ul>
+				</div>
+			</article>
+			<article>
+				<div class="title">
+					<h2>Case show</h2>
+					<h4>最新案例展示</h4>
+					<a href="">more
+						<i></i>
+					</a>
+				</div>
+				<div class="article-list">
+					<ul>
+						{foreach name="caseShowData" item="v"}
+						<li class="index-list">
+							<a href="{:url('index/content/index',['ar_id'=>$v['id']])}">
+							<img data-original="{$websetData.domain}/public/{$v.image}" class="lazy" width="332" height="200">
+							<div class="con">
+								<h3 class="title">{$v.name}</h3>
+								<p class="time">{$v.time|date='Y-m-d H:i:s',###}</p>
+								<p class="digest">{$v.digest}</p>
+								<p class="read">阅读</p>
+							</div>
+							</a>
+						</li>
+						{/foreach}
+					</ul>
+				</div>
+			</article>
+			<article>
+				<div class="title">
+					<h2>Note</h2>
+					<h4>最新笔记</h4>
+					<a href="">more
+						<i></i>
+					</a>
+				</div>
+				<div class="article-list">
+					<ul>
+						{foreach name="noteData" item="v"}
+						<li class="index-list">
+							<a href="{:url('index/content/index',['ar_id'=>$v['id']])}">
+							<img class="lazy" width="332" height="200" data-original="{$websetData.domain}/public/{$v.image}" >
+							<div class="con">
+								<h3 class="title">{$v.name}</h3>
+								<p class="time">{$v.time|date='Y-m-d H:i:s',###}</p>
+								<p class="digest">{$v.digest}</p>
+								<p class="read">阅读</p>
+							</div>
+							</a>
+						</li>
+						{/foreach}
+					</ul>
+				</div>
+			</article>
+		</div>	
+	</div>
+	<!-- 内容 end -->
+
+	

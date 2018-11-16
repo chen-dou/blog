@@ -1,0 +1,152 @@
+/*侧边样式 start*/
+.main{
+	padding:100px 0;
+	background:#f1f1f1;
+	overflow:hidden;
+}
+.main .wrap .left .top,.main .wrap .left .middle,.main .wrap .left .bottom{
+	width:279px;
+	background:#fff;
+	padding:8px;
+	border-radius:10px;
+	box-shadow:1px 1px 5px #bdbdbd;
+	margin-bottom:30px;
+}
+.main .wrap .left .bottom{
+	margin-bottom:0px;	
+}
+.main .wrap .left h3{
+	line-height:40px;
+	border-bottom:1px solid #ccc;
+	text-indent:16px;
+	font-size:16px;
+	padding:0px 0px 6px;
+}
+.main .wrap .left .top .list ul li{
+	margin-top:10px;
+	
+}
+.main .wrap .left .top .list ul li a span{
+	float:right;
+	width:238px;
+	line-height:25px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;	
+}
+.main .wrap .left .top .list ul li a{
+	color:#000;
+	transition:all .2s;
+}
+.main .wrap .left .top .list ul li a:hover{
+	color:#0cf;
+	transform:translate(8px);
+
+}
+.main .wrap .left .top .list ul li a:before{
+	display:inline-block;
+	width:25px;
+	height:25px;
+	border:1px solid #ccc;
+	text-align:center;
+	border-radius:5px;
+}
+.main .wrap .left .top .list ul li:nth-of-type(1) a{
+	color:#f74257;
+}
+.main .wrap .left .top .list ul li:nth-of-type(1) a:before{
+	content:'1';
+	border-color:#f74257;
+}
+.main .wrap .left .top .list ul li:nth-of-type(2) a{
+	color:#17a6e8;
+}
+.main .wrap .left .top .list ul li:nth-of-type(2) a:before{
+	content:'2';
+	border-color:#17a6e8;
+}
+.main .wrap .left .top .list ul li:nth-of-type(3) a{
+	color:#ed9248;
+}
+.main .wrap .left .top .list ul li:nth-of-type(3) a:before{
+	content:'3';
+	border-color:#ed9248;
+}
+.main .wrap .left .top .list ul li:nth-of-type(4) a:before{
+	content:'4';
+}
+.main .wrap .left .top .list ul li:nth-of-type(5) a:before{
+	content:'5';
+}
+.main .wrap .left .top .list ul li:nth-of-type(6) a:before{
+	content:'6';
+}
+.main .wrap .left .top .list ul li:nth-of-type(7) a:before{
+	content:'7';
+}
+.main .wrap .left .top .list ul li:nth-of-type(8) a:before{
+	content:'8';
+}
+.main .wrap .left .top .list ul li:nth-of-type(9) a:before{
+	content:'9';
+}
+.main .wrap .left .top .list ul li:nth-of-type(10) a:before{
+	content:'10';
+}
+.main .wrap .left .top .list ul li a{
+	display:block;
+	font-size:14px;
+	line-height:25px;
+}
+.main .wrap .left .middle .list ul li{
+	margin-top:10px;
+}
+.main .wrap .left .middle .list ul li a{
+	display:block;
+	color:#000;
+	font-size:14px;
+}
+.main .wrap .left .middle .list ul li a img{
+	margin-right:5px;
+	transition:.7s;
+}
+.main .wrap .left .middle .list ul li a:after{
+	content:'';
+	clear:both;
+	display:block;
+}
+.main .wrap .left .middle .list ul li a p{
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	margin-bottom:5px;
+	transition:.7s;
+}
+.main .wrap .left .middle .list ul li a:hover p:nth-of-type(2){
+	color:#0cf;
+}
+.main .wrap .left .middle .list ul li a:hover img{
+	transform:scale(1.1);
+}
+.main .wrap .left .bottom .list{
+	padding-top:10px;
+}
+.main .wrap .left .bottom .list ul:after{
+	content:'';
+	clear:both;
+	display:block;
+}
+.main .wrap .left .bottom .list ul li{
+	float:left;
+}
+.main .wrap .left .bottom .list ul li a{
+	display:block;
+	padding:5px;
+	box-shadow:1px 1px 3px #c1c1c1;
+	color:#404040;
+	font-size:14px;
+	border:1px solid #c1c1c1;
+	border-radius:5px;
+	margin:5px;
+}
+/*侧边样式 end*/

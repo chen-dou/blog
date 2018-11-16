@@ -1,0 +1,85 @@
+{layout name="layout/layout" /}
+        <!--右侧主题部分 start-->
+        <div class="col-xs-12 col-sm-9 col-lg-10">
+            <ol class="breadcrumb" style="background-color: #f9f9f9;padding:8px 0;margin-bottom:10px;">
+                <li>
+                    <a href=""><i class="fa fa-cogs"></i>
+                        文章管理</a>
+                </li>
+                <li class="active">
+                    <a href="">文章编辑</a>
+                </li>
+
+            </ol>
+            <ul class="nav nav-tabs" role="tablist">
+                <li><a href="<?php echo url('index');?>">文章列表</a></li>
+                <li class="active"><a href="">编辑文章</a></li>
+            </ul>
+            <form class="form-horizontal" id="form" enctype="multipart/form-data" action="" method="post">
+            	<input type="hidden" name="id" value="{$info.id}">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">文章管理</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">文章名称</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="name"  value="{$info.name}" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">所属栏目</label>
+                            <div class="col-sm-9">
+                                <select class="js-example-basic-single form-control" name="cate_id">
+                                    {foreach name="cateList" item="v"}
+                                    	<option value="{$v.id}" <?php if($v['id']==$info['cate_id']): ?>selected="selected"<?php endif; ?> >{:str_repeat("-",$v['level']*3)}{$v.name}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label"></label>
+                            <div class="col-sm-9">
+                               {foreach name="tagData" item="v"}
+                               <input type="checkbox" <?php if(in_array($v['id'],$tagId)): ?>checked="checked"<?php endif;?>name="tag_id[]" value="{$v.id}">{$v.name}
+                               {/foreach}
+                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">文章作者</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="author"  value="{$info.author}" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">图片</label>
+                            <div class="col-sm-9">
+                                <input type="file" name="image"   placeholder="">
+                                <?php if($info['image']): ?><img src="/{$info.image}" height="40"><?php else: ?>暂无缩略图<?php endif; ?>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">文章摘要</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="digest"  value="{$info.digest}" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">文章内容</label>
+                            <div class="col-sm-9">
+                            	<textarea name="content"  id="container">{$info.content}</textarea>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+                <button class="btn btn-primary" type="submit">确定</button>
+            </form>
+			<script type="text/javascript">
+        		var ue = UE.getEditor('container',{
+        	        initialFrameWidth : 760,
+        	        initialFrameHeight: 400
+        	    });
+    		</script>
+        </div>
+
